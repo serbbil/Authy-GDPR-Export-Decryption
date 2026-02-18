@@ -1,6 +1,6 @@
 # Authy GDPR Export Decryption
 
-> **Simple tool to decrypt Authy TOTP encrypted seeds provided by Twilio under GDPR legal request.**
+> **A simple tool to decrypt Authy TOTP encrypted seeds provided by Twilio under GDPR legal request.**
 
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
 [![Python](https://img.shields.io/badge/python-3.x-blue.svg)](https://www.python.org/)
