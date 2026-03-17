@@ -137,8 +137,8 @@ def main():
     print(f"Decrypted: {success_count} / {len(valid_rows)}")
 
     if success_count > 0:
-        export_choice = input("\nExport valid tokens to a text file `decrypted_tokens.txt` in the format `otpauth://totp/{{ACCOUNT_NAME}}?secret={{TOTP_SECRET}}` for importing into other apps like Ente? (Y/n): ").strip().lower()
-        if export_choice in ['', 'y', 'yes']:
+        export_choice = input("\nExport valid tokens to a text file `decrypted_tokens.txt` in the format `otpauth://totp/{{ACCOUNT_NAME}}?secret={{TOTP_SECRET}}` for importing into other apps like Ente? (y/N): ").strip().lower()
+        if export_choice in ['y', 'yes']:
             try:
                 with open('decrypted_tokens.txt', 'w', encoding='utf-8') as f:
                     for name, secret in decrypted_tokens:
