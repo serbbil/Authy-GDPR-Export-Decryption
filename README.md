@@ -87,7 +87,13 @@ STATUS   | ACCOUNT                        | TOTP SECRET
 [FAIL]   | Old Account                    | Password incorrect or bad data
 ```
 
+### Optional Export to plain text file
+The script also offers to export the decrypted secrets to a plain text file in the otpauth format.
+This is especially useful for importing into apps like Ente, which support this format for TOTP secrets.
 
+```txt
+otpauth://totp/{{ACCOUNT_NAME}}?secret={{TOTP_SECRET}}
+```
 
 ---
 

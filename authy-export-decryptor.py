@@ -4,6 +4,7 @@ import csv
 import os
 import sys
 import io
+import urllib.parse
 
 try:
     from cryptography.hazmat.primitives.ciphers import Cipher, algorithms, modes
@@ -119,17 +120,35 @@ def main():
     print("-" * (col_w + 45))
 
     success_count = 0
+    decrypted_tokens = []
     for row in valid_rows:
         name = row.get('name', 'Unknown').strip()
         success, result = decrypt_account(row, password)
         
         status = "[ OK ]" if success else "[FAIL]"
-        if success: success_count += 1
+        if success:
+            success_count += 1
+            # Add to export list if successful
+            decrypted_tokens.append((name, result))
         
         print(f"{status:<8} | {name:<{col_w}} | {result}")
 
     print("-" * (col_w + 45))
     print(f"Decrypted: {success_count} / {len(valid_rows)}")
+
+    if success_count > 0:
+        export_choice = input("\nExport valid tokens to a text file `decrypted_tokens.txt` in the format `otpauth://totp/{{ACCOUNT_NAME}}?secret={{TOTP_SECRET}}` for importing into other apps like Ente? (y/N): ").strip().lower()
+        if export_choice in ['y', 'yes']:
+            try:
+                with open('decrypted_tokens.txt', 'w', encoding='utf-8') as f:
+                    for name, secret in decrypted_tokens:
+                        # URL-encode the name for the otpauth URI
+                        encoded_name = urllib.parse.quote(name)
+                        f.write(f"otpauth://totp/{encoded_name}?secret={secret}\n")
+                print(f"Successfully exported {success_count} tokens to `decrypted_tokens.txt`")
+            except Exception as e:
+                print(f"Error exporting tokens: {e}")
+
     input("\nPress Enter to exit...")
 
 if __name__ == "__main__":
