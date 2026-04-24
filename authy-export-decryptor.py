@@ -74,7 +74,20 @@ def parse_csv(filepath):
     try:
         with open(filepath, 'r', encoding='utf-8', errors='replace') as f:
             content = f.read().replace('"', '').replace("'", "")
-        
+
+        lines = content.split('\n')
+        fixed = []
+        i = 0
+        while i < len(lines):
+            line = lines[i]
+            if i > 0 and line.strip() and line.count(',') < 3:
+                while line.count(',') < 3 and i + 1 < len(lines):
+                    i += 1
+                    line = line + lines[i]
+            fixed.append(line)
+            i += 1
+        content = '\n'.join(fixed)
+
         f_io = io.StringIO(content)
         try:
             dialect = csv.Sniffer().sniff(content[:1024], delimiters=',;')
